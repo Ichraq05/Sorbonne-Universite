@@ -1,0 +1,21 @@
+Pour chacun des cas suivants, nous allons décrire très précisément le type de convergence en utilisant les valeurs de x0, α et ε indiquées.
+
+1. x0 = 2, α = 0.3, ε = 1e-14
+   - Type de convergence : Convergence rapide
+   - La suite converge rapidement vers la valeur x12 ≈ 1.000845742570146e + 00. La différence entre les itérés successifs diminue très rapidement.
+
+2. x0 = 5, α = 3.5, ε = 1e-14
+   - Type de convergence : Divergence
+   - Dans ce cas, la suite diverge vers l'infini. Les itérés successifs augmentent de plus en plus, et la suite ne converge pas vers une valeur finie.
+
+3. x0 = 0.5, α = 3.5, ε = 1e-14
+   - Type de convergence : Convergence
+   - La suite converge vers la valeur x12 ≈ 0.285714285714286e + 00. Les itérés successifs convergent vers une valeur proche de 0.2857, et la convergence est relativement rapide.
+
+4. x0 = -3.0, α = 1.0, ε = 1e-14
+   - Type de convergence : Convergence lente
+   - La suite converge lentement vers la valeur x12 ≈ 1.000000000000000e + 00. Les itérés successifs mettent un certain temps à se rapprocher de 1, ce qui indique une convergence lente.
+
+5. x0 = 2.0, α = 1.0, ε = 1e-14
+   - Type de convergence : Convergence
+   - La suite converge vers la valeur x12 = 1.000000000000000e + 00. Les itérés successifs convergent rapidement vers 1, ce qui indique une convergence rapide vers une valeur fixe.
