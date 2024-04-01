@@ -1,0 +1,25 @@
+.nav li {
+    float: left;
+    list-style : none;
+    border-right: 1px black solid;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+}
+
+.nav li:first-child{
+    border-left: 1px black solid;
+}
+
+.nav li:last-child{
+    float: none;
+    text-align: right;
+}
+
+.nav button{
+    padding-top: 0.5 em 1 em;
+    color: purple;
+}
+
+.nav button:hover {
+    background-color: lightblue;
+}
