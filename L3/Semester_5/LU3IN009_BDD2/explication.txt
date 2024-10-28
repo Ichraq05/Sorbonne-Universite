@@ -1,0 +1,1 @@
+Les projets de Base de Données 2 sont sur MySQL fait aux postes de l'université. Pour cette raison qu'il n'a pas de fichiers à mettre à disposition ici.
