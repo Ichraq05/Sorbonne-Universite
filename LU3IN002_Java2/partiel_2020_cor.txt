@@ -1,4 +1,4 @@
-/** QUESTION 1.1 a)Version **/
+/** QUESTION 1 a)Version **/
 
 package pobj.pkgman;
 
@@ -80,7 +80,7 @@ public class Version implements IVersion {
 	
 }
 
-/** QUESTION 1.1 b) AbstractPkg **/
+/** QUESTION 1 b) AbstractPkg **/
 
 package pobj.pkgman;
 
@@ -147,7 +147,7 @@ public abstract class AbstractPkg implements IPkg {
 }
 
 
-/** QUESTION 1.1 c) LimitPkg **/
+/** QUESTION 1 c) LimitPkg **/
 
 package pobj.pkgman;
 
