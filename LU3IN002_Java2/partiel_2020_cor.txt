@@ -1,0 +1,705 @@
+/** QUESTION 1.1 a)Version **/
+
+package pobj.pkgman;
+
+public class Version implements IVersion {
+
+	// Tous les attributs doivent être privés et "final" (constants).
+	private final int major;
+	private final int minor;
+	
+	// Le constructeur fixe les attributs constants.
+	public Version(int major, int minor) {
+		this.major = major;
+		this.minor = minor;
+	}
+
+	// Accesseurs publics en lecture pour les attributs privés.
+
+	// Utiliser @Override permet de s'assurer qu'on ne s'est pas trompé dans le
+	// nom des méthodes ou les types des arguments
+	
+	@Override
+	public int getMajor() {
+		return major;
+	}	
+
+	@Override
+	public int getMinor() {
+		return minor;
+	}
+		
+	// Conversion en chaîne.
+	@Override
+	public String toString() {
+		// Concatener une chaîne à un entier convertit automatiquement
+		// ce dernier en chaîne.
+		return major + "." + minor;
+	}
+	
+	// Comparaison d'égalité.
+	@Override
+	public boolean equals(Object o) {
+		// Test de type, vis à vis de l'interface (et non de la classe)
+		// pour plus de généralité.
+		if (!(o instanceof IVersion)) {
+			return false;
+		}
+		// Conversion de type, pour acceder à getMajor et getMinor.
+		// Le test instanceof garantit que la conversion n'échoue jamais.
+		IVersion v = (IVersion) o;
+		// Comparaison des attributs.
+		return major == v.getMajor() && minor == v.getMinor();
+	}
+
+	// Opérateur d'ordre : retourne -1, 0 ou 1.
+	@Override
+	public int compareTo(IVersion v) {
+		// Cas numéro majeur différent.
+		if (major > v.getMajor()) return 1;
+		if (major < v.getMajor()) return -1;
+		// Cas numéro majeur égal.
+		if (minor > v.getMinor()) return 1;
+		if (minor < v.getMinor()) return -1;
+		// Cas d'égalité.
+		return 0;
+	}
+
+	/*
+	 * La version 1.0 est créée au chargement de la classe, et stockée dans une
+	 * variable statique (toujours privée).
+	 */
+	private static Version defaultVersion = new Version(1,0);
+	
+	// Retourne la version 1.0.
+	public static Version getDefaultVersion() {
+		// Attention, pas de new : c'est toujours le même objet qui est retourné.
+		// On a donc : Version.getDefaultVersion() == Version.getDefaultVersion().
+		return defaultVersion;
+	}
+	
+}
+
+/** QUESTION 1.1 b) AbstractPkg **/
+
+package pobj.pkgman;
+
+import java.util.List;
+
+public abstract class AbstractPkg implements IPkg {
+
+	/*
+	 * Attributs privés.
+	 * Programmation vis à vis des interfaces (IVersion, List) plutôt que 
+	 * des classes concrètes (Version, ArrayList). 
+	 */
+	private String name;
+	private IVersion version;
+	private List<IPkg> dependencies;
+
+	/*
+	 * Le constructeur fixe la valeur des attributs privés.
+	 * Il devra être appelé par les classes concrètes qui héritent d'AbstractPkg.
+	 */
+	public AbstractPkg(String name, IVersion version, List<IPkg> dependencies) {
+		this.name = name;
+		this.version = version;
+		this.dependencies = dependencies;
+	}	
+	
+	// Accesseurs publics en lecture pour les attributs privés.
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public IVersion getVersion() {
+		return version;
+	}
+
+	@Override
+	public List<IPkg> getDependencies() {
+		return dependencies;
+	}
+
+	// Comparaison d'égalité.
+	@Override
+	public boolean equals(Object o) {
+		// Comme dans Version, un test de type puis une conversion.
+		if (!(o instanceof IPkg)) {
+			return false;
+		}
+		IPkg p = (IPkg) o;
+		// Attention, nous ne comparons plus des entiers comme dans Version,
+		// il faut donc utiliser equals et pas ==.
+		return version.equals(p.getVersion()) && name.equals(p.getName());
+	}
+	
+	// Conversion en chaîne.
+	@Override
+	public String toString() {
+		// Concatener une chaîne à un objet convertit ce dernier en chaîne par un
+		// appel implicite à toString. On appelle donc bien ici version.toString().
+		return name + "-" + version;
+	}
+}
+
+
+/** QUESTION 1.1 c) LimitPkg **/
+
+package pobj.pkgman;
+
+import java.util.List;
+
+public class LimitPkg extends AbstractPkg {
+
+	/*
+	 * Il ne faut pas (re)définir les attributs name, version, dependencies
+	 * Il sont déjà présents (mais privés) dans AbstractPkg, dont on hérite.
+	 */
+	
+	// Attribut statique, commun à tous les objets de cette classe (ou héritée).
+	// Automatiquement initialisé à 0. C'est ce qu'il faut.
+	private static int nbInstalled;
+
+	// Constructeur de même signature qu'AbstractPkg.
+	public LimitPkg(String name, IVersion version, List<IPkg> dependencies) {
+		/*
+		 * Nous ne pouvons pas modifier les attributs name, version, 
+		 * dependencies, privés dans AbstractPkg.
+		 * Nous passons donc par le constructeur d'AbstractPkg pour 
+		 * les initialiser, avec un appel à super.
+		 */
+		super(name, version, dependencies);
+	}
+
+	@Override
+	public boolean install() {
+		// Retourne avec une erreur (false) si trop de paquets sont installés.
+		if (nbInstalled >= 10) {
+			return false; 
+		}
+		// Sinon, incrémente nbInstalled.
+		nbInstalled++;
+		return true;
+	}
+
+	@Override
+	public void uninstall() {
+		nbInstalled--;
+	}
+
+	public static int getNbInstalled() {
+		return nbInstalled;
+	}
+	
+	/*
+	 * Il ne faut pas (re)définir les méthodes getName, getVersion, 
+	 * getDependencies, equals, toString. 
+	 * Elles sont héritées d'AbstractPkg, et peuvent donc accéder à ses attributs
+	 * privés (name, version, dependencies).
+	 */
+}
+
+
+/** QUESTION 2 Sample **/
+
+package pobj.pkgman.loader;
+
+import java.io.IOException;
+import java.util.List;
+
+import pobj.pkgman.IPkg;
+
+public class Sample {	
+
+	/*
+	 *  Méthode statique.
+	 *  Attention à bien respecter le format demandé.
+	 *  Lors de la correction, je ne tiens pas compte des espaces manquantes
+	 *  ou ajoutées (mais l'oubli du ":" est une erreur). 
+	 */
+	public static void printPkgs(List<IPkg> l) {
+		// Itération sur la liste l.
+		for (IPkg p : l) {
+			System.out.print(p + ":");
+			// Itération sur les dépendances.
+			for (IPkg pp : p.getDependencies()) {
+				System.out.print(" " + pp);
+			}
+			System.out.println();
+		}
+	}
+
+	/*
+	 * Pour être exécutable, une classe doit définir une méthode main plubique,
+	 * statique, ayant un String[] en argument et retournant void.
+	 * Notre méthode peut signaler des exceptions IOException (à cause de
+	 * PkgLoader). Celles-ci afficheront un message dans la console 
+	 * (comportement par défaut en cas d'exception non rattrapée dans le 
+	 * programme).
+	 */
+	public static void main(String[] args) throws IOException {
+		// Chargement.
+		PkgLoader l = new PkgLoader("src/pobj/pkgman/loader/example.txt");
+		// Affichage via la méthode statique.
+		printPkgs(l.getPackages());
+	}
+}
+
+
+/** QUESTION 3 Manager**/
+
+package pobj.pkgman;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Manager implements IManager {
+
+	// Liste des paquets déjà installés.
+	// Initialement vide.
+	private List<IPkg> installed = new ArrayList<>();
+
+	// Accesseur pour la liste des paquets installés.
+	@Override
+	public List<IPkg> getInstalled() {
+		return installed;
+	}
+
+	@Override
+	public boolean installPkg(IPkg pkg) {
+		// Si le paquet est déja installé, retourne immédiatement true.
+		if (installed.contains(pkg)) {
+			return true;
+		}
+
+		// Sinon, installation des dépendances avant l'installation du paquet.
+		for (IPkg p : pkg.getDependencies()) {
+			// L'installation se fait par appel récursif à installPkg, pour s'assurer que 
+			// les dépendances sont installées transitivement.
+			if (!installPkg(p)) {
+				// En cas d'échec d'une installation, retour immédiat et propagation 
+				// de l'erreur (retour de false) à l'appelant.
+				return false;
+			}
+		}
+
+		// Installation du paquet.
+		if (!pkg.install()) {
+			// En cas d'erreur, retour de false.
+			return false;
+		}
+
+		// Si tout s'est bien passé, le paquet est ajouté à la liste,
+		installed.add(pkg);
+		// et on retourne true
+		return true;
+	}
+
+   	@Override
+	public void uninstallPkg(IPkg  pkg) {
+   		// Vérification que le paquet est installé.
+   		if (!installed.contains(pkg))  {
+   			// si non installé, rien à faire
+   			return;
+   		}
+   		
+   		// si installé, appel à uninstall(), sur le paquet uniquement
+   		// sans regarder ses dépendances,
+   		pkg.uninstall();
+   		// puis suppression de la liste des paquets installés.
+   		installed.remove(pkg);
+   	}	   	
+}
+
+
+/** QUESTION 4 SimplePkgAdapter **/
+
+package pobj.pkgman;
+
+import java.util.Collections;
+
+/*
+ * Nous avons choisi d'hériter d'AbstractPkg pour ne pas avoir à réimplanter
+ * les getters, equals et toString.
+ * Voir SimplePkgAdapterAlt pour une variante qui n'hérite pas d'AbstractPkg.
+ */
+public class SimplePkgAdapter extends AbstractPkg {
+
+	// Attribut privé qui garde un lien vers l'objet décoré.
+	private ISimplePkg pkg;
+	
+	// Constructeur simple, qui fixe l'obet décoré.
+	public SimplePkgAdapter(ISimplePkg pkg) {
+		// Appel au constructeur parent : il gardera dans ses attributs la valeur
+		// du nom (délégation à l'objet décoré), de la version (par défaut) et de la 
+		// liste (vide) de dépendances.
+		super(pkg.name(), Version.getDefaultVersion(), Collections.emptyList());
+		this.pkg = pkg;
+	}
+
+	@Override
+	public boolean install() {
+		// Délégation à pkg. 
+		pkg.install();
+		return true;
+	}
+
+	@Override
+	public void uninstall() {
+		// Rien à faire.
+	}
+	
+	/*
+	 * Inutile de redéfinir les accesseurs, toString() et equals().
+	 * L'implantation héritée d'AbstractPkg convient.
+	 */
+}
+
+
+/** QUESTION 5 a)LogBuffer **/
+
+package pobj.pkgman.log;
+
+public class LogBuffer implements ILogger {
+
+	/*
+	 * Nous utilisons un StringBuilder pour ajouter avec un coût linéaire en 
+	 * la taille de la chaîne ajoutée (et non en la taille du log).
+	 * Utiliser un StringBuffer, un StringJointer, ou même une List<String> étaient
+	 * également des réponses acceptables.
+	 */
+	private StringBuilder buf = new StringBuilder();
+	
+	@Override
+	public void log(String msg) {
+		buf.append(msg);
+		buf.append('\n');
+	}
+
+	@Override
+	public String getLog() {
+		return buf.toString();
+	}
+}
+
+
+/** QUESTION 5 b)PkgLogger **/
+
+package pobj.pkgman.log;
+
+import pobj.pkgman.IPkg;
+
+/*
+ * Cette solution utilise un décorateur générique, PkgDecorator, qui se
+ * contente de déléguer au décoré sans autre effet, puis une classe
+ * PkgLogger qui en hérite pour redéfinir (uniquement) les méthodes qui 
+ * doivent avoir un comportement différent de celui du décoré.
+ */
+public class PkgLogger extends PkgDecorator {
+
+	// Attribut à qui déléguer les écritures dans le log.
+	private ILogger log;
+	
+	public PkgLogger(IPkg pkg, ILogger log) {
+		// Appel au constructeur parent pour fixer le décoré.
+		super(pkg);
+		this.log = log;
+	}
+	
+	@Override
+	public boolean install() {
+		// Ajout dans le log.
+		log.log("Installing " + this);
+		// Appel d'install sur le décoré, par délégation à PkgDecorator.
+		if (super.install()) {
+			// Ajout dans le log.
+			log.log("Success");
+			return true;
+		}
+		else {
+			// Ajout dans le log.
+			log.log("Failure");
+			return false;
+		}
+	}
+
+	@Override
+	public void uninstall() {
+		// Ajout dans le log.
+		log.log("Uninstalling " + this);
+		// Appel d'uninstall sur le décoré, par délégation à PkgDecorator.
+		super.uninstall();
+	}
+}
+
+
+/** QUESTION 6 ManagerVersion **/
+
+package pobj.pkgman;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+public class ManagerVersion implements IManager {
+
+	// Cette map associe à chaque nom de paquet (chaîne simple, sans 
+	// information de version) le paquet IPkg effectivement installé.
+	// Initialement vide (pas de paquet installé).
+	private HashMap<String,IPkg> installed = new HashMap<>();
+
+	// Installation (si aucun paquet de même nom que pkg est installé) ou mise 
+	// à jour (si un paquet de même nom que pkg est installé) récursive 
+	// du paquet. 
+	@Override
+	public boolean installPkg(IPkg pkg) {
+		// Vérification qu'un paquet de même nom que pkg est déjà installé. 
+		IPkg i = installed.get(pkg.getName());
+		if (i != null && i.getVersion().compareTo(pkg.getVersion()) >=0) {
+			// Un paquet est déjà installé et sa version est égale ou supérieure à
+			// celle demandée.
+			// Rien à faire, nous retournons un succès.
+			return true;
+		}
+		// Ici, soit il n'y a pas de paquet installé de même nom que pkg (i == null),
+		// soit le paquet installé a une version strictement inférieure à celle de pkg.
+		// Dans les deux cas, il sera nécessaire d'installer pkg.
+		// Nous installons d'abord (récursivement) ses dépendances.
+		for (IPkg p : pkg.getDependencies()) {
+			if (!installPkg(p))  {
+				// Erreur d'installation : retour immédiat en erreur (false).
+				return false;
+			}
+		}
+		// Si un paquet du même nom que pkg est déjà installé,
+		// nous le désinstallons (mise à jour).
+		if (i!=null) {
+			i.uninstall();
+		}
+		// Installation du paquet pkg.
+		if (!pkg.install()) {
+			return false;
+		}
+		// Mise à jour de la map : le nom du paquet est associé à pkg.
+		// Note : si la map contenait déjà une entrée pour la clé (i.e., si un paquet
+		// de même nom que pkg était installé), put remplace l'ancienne entrée
+		// par la nouvelle (pkg).
+		installed.put(pkg.getName(), pkg);
+		// Tout s'est bien passé : nous retournons true.
+		return true;
+	}
+
+	// Désinstallation.
+	@Override
+	public void uninstallPkg(IPkg pkg) {
+		// Vérification que pkg est installé.
+		// Nous cherchons d'abord un paquet de même nom que pkg dans les
+		// paquets installés.
+		IPkg i = installed.get(pkg.getName());
+		// Puis nous vérifions que sa version correspond.
+		if (i != null && i.getVersion().equals(pkg.getVersion())) {
+			// Désinstallation.
+			i.uninstall();
+			// Mise à jour de la map.
+			installed.remove(i.getName());
+		}
+	}
+
+	// Retourne la liste des paquets installés.
+	@Override
+	public List<IPkg> getInstalled() {
+		// Extraction des paquets installés depuis la map.
+		Collection<IPkg> set = installed.values();
+		// values() retourne une Collection.
+		// Nous devons la convertir en liste.
+		// Nous utilisons pour cela, le constructeur d'ArrayList prenant
+		// une Collection en argument.
+		return new ArrayList<>(set);
+	}
+}
+
+
+/** QUESTION 7 a) Connector **/
+
+package pobj.pkgman.updater;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import pobj.pkgman.IPkg;
+import pobj.pkgman.loader.PkgLoader;
+
+public class Connector implements IConnector {	
+	
+	/*
+	 * Le nom de fichier est spécifié à la construction, mais est (ré)utilisé à
+	 * chaque appel à getDatabase().
+	 * Il faut donc le maintenir dans un attribut (privé).
+	 */
+	private String file;
+
+	// Pas d'appel à PkgLoader, le constructeur se contente de se souvenir
+	// du nom du fichier.
+	public Connector(String file) {
+		this.file = file;
+	}
+	
+	// getDatabase fait tout le travail : chargement de la base et construction d'un
+	// nouveau IDatabase à chaque nouvel appel.
+	@Override
+	public IDatabase getDatabase() {
+		// Les paquets de la base seront classés par nom de paquet dans une map
+		// lors du chargement.
+		Map<String,IPkg> data = new HashMap<>();
+		try {
+			// Chargement de la liste des paquets.
+			PkgLoader l = new PkgLoader(file);
+			// Pour chaque paquet, on met à jour la map data : le paquet n'est
+			// ajouté que si data ne contient pas de paquet de même nom, ou bien
+			// un paquet de même nom mais de version inférieure.
+			for (IPkg p : l.getPackages()) {
+				// Y-a-t-il déjà un paquet de même nom que p ?
+				IPkg old = data.get(p.getName());
+				if (old == null || old.getVersion().compareTo(p.getVersion()) < 0) {
+					// Pas de paquet de même nom, ou bien un paquet de version
+					// strictement inférieure à p.
+					data.put(p.getName(), p);
+				}
+			}
+			// En sortie de boucle, data contient une entrée pour chaque nom de 
+			// paquet présent dans file.
+			// À chaque nom de paquet de file, data associe le paquet de file de
+			// version la plus haute.
+		} catch (IOException e) {
+			// Erreur de chargement, nous retournons null.
+			return null;
+		}
+		
+		// L'objet IDatabase retourné est instancié ici par une classe anonyme
+		// (une classe sans nom qui implante l'interface IDatabase en 
+		// fournissant le code des méthodes getPackage et close).
+		// La syntaxe générale est : "new interface() { méthodes };". 
+		// Une classe interne aurait aussi bien marché (mais serait un peu plus
+		// verbeuse).
+		return new IDatabase() {
+			// La classe anonyme est dans la portée de la variable locale data.
+			// Toutes ses méthodes peuvent donc y accéder (même si elles sont
+			// appelées après le retour de la méthode getDatabase() : l'instance
+			// garde une référence cachée sur la map, qui reste valide en dehors de
+			// la portée normale de la variable locale data).
+			
+			@Override public IPkg getPackage(String name) {
+				// get retournera naturellement null si aucun paquet de nom name
+				// n'existe dans la map data.
+				return data.get(name);
+			}
+			@Override public void close() {
+				// Rien à faire dans close.				
+			}
+		};
+	}
+}
+
+
+/** QUESTION 7 b) UpdateEception **/
+
+package pobj.pkgman.updater;
+
+// Les exceptions normales héritent d'Exception.
+public class UpdateException extends Exception {
+
+	// Ceci permet d'éviter un "warning" d'Eclipse, mais n'est pas indispensable.
+	private static final long serialVersionUID = 1L;
+
+	public UpdateException(String msg) {
+		// Le constructeur se contente de déléguer au bon constructeur du
+		// parent Exception. Il fixe le message d'erreur.
+		super(msg);
+	}
+}
+
+
+/** QUESTION 7 c) Updater **/
+
+package pobj.pkgman.updater;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import pobj.pkgman.IPkg;
+import pobj.pkgman.IManager;
+
+public class Updater {
+
+	// Nous gardons dans des attributs (privés) le IManager et le IConnector
+	// (fixés à la construction) à qui nous déléguerons le travail d'installation
+	// et de recherche des (dernières versions des) paquets par leur nom.
+	private IManager man;
+	private IConnector connector;
+	
+	// Le constructeur fixe le IManager et le IConnector.
+	public Updater(IConnector connector, IManager man) {
+		this.connector = connector;
+		this.man = man;
+	}
+
+	// Installation (ou mise à jour) d'une liste de paquets spécifiés par leur nom.
+	// installPkgs signalera une UpdateException en cas d'erreur, ce qu'il faut
+	// préciser par un "throws UpdateException" dans la signature.
+	public void installPkgs(List<String> pkgs) throws UpdateException {
+		// Récupération de la base à jour de paquets.
+		IDatabase c = connector.getDatabase();
+		if (c==null) {
+			// Erreur de récupération de la base de paquets.
+			throw new UpdateException("Cannot establish connection");
+		}
+		// Le try-finally assure que c.close() sera toujours appelée,
+		// même en cas d'exception.
+		try {
+			// Pour chaque paquet à installer (ou mettre à jour).
+			for (String name : pkgs) {
+				// Récupération de la dernière version du paquet.
+				IPkg p = c.getPackage(name);
+				if (p==null) {
+					// Aucun paquet de ce nom dans la base => erreur.
+					throw new UpdateException("Cannot find package " + name);
+				}
+				// Installation du paquet, par délégation au ManagerVersion.
+				if (!man.installPkg(p)) {
+					// Erreur d'installation.
+					throw new UpdateException("Cannot install package " + p);
+				}
+			}
+		}
+		finally {
+			// Fermeture de la connexion. Toujours exécutée.
+			c.close(); 
+		}
+	}
+
+	// Retourne la liste des noms des paquets installés.
+	public List<String> getInstalled() {
+		// getInstalled retourne une liste de paquets, dont il faut extraire le nom.
+		// Les noms sont ajoutés dans une liste s...
+		List<String> s = new ArrayList<>();
+		for (IPkg p : man.getInstalled()) {
+			s.add(p.getName());
+		}
+		// ...qui est retournée.
+		return s;
+	}
+
+	// Mise à jour de tous les paquets installés.
+	// updateWorld appelle installPkgs, et peut donc signaler 
+	// une UpdateException.
+	public void updateWorld() throws UpdateException {
+		installPkgs(getInstalled());
+	}
+}
+
