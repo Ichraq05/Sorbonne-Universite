@@ -19,7 +19,7 @@ int max_list(char **list){
 
 int main(int argc, char **argv){
     if(argc < 2){
-        printf("Entrer au moins un nombre.");
+        printf("Usage : ./<nom> <nombre>...\n");
         return 1;
     }
 
