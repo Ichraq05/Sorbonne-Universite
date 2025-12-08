@@ -1,0 +1,127 @@
+*********************__TME 2__********************************
+
+_______________EXERCICE 1_______________
+
+Q.1.1 On constate que la commande possède un temps de réponse de total de 5,003 secondes,
+soit dont 0,002 secondes en mode user et 0,002 secondes en mode système.
+
+Q.1.2 On constate que le temps total d'exécution du programme est identique au temps d'utilisation CPU en mode user à un millième de seconde près
+et qu'aucun temps CPU est consommé en mode système.
+
+Q.1.3 On constate cette fois-ci que le temps total d'exécution du programme est de 0,964 secondes,
+qui correspond exactement à la somme du temps CPU consommé en mode user (0,372 sec) et du temps CPU consommé en mode système (0,592 sec).
+
+
+_______________EXERCICE 2_______________
+
+Q.2.1
+void lance_commande(char *commande){
+    if (system((const char *)commande) == -1){
+        fprintf(stderr, "Erreur: la commande '%s' n'a pas pu être exécutée correctement\n", commande);
+    }
+}
+
+Q.2.2
+Main:
+
+int main(int argc, char **argv){
+    if (argc < 1){
+        fprintf(stderr, "Erreur: au moins un argument\n");
+        return EXIT_FAILURE;
+    }
+
+    for (int i=1; i<argc; i++){
+        lance_commande(argv[i]);
+    }
+
+    return 0;
+}
+
+_______________EXERCICE 3_______________
+
+Q.3.2
+Temps mis par l'exécution de la commande : 5.00
+Temps mis par l'exécution de la commande : 10.00
+
+
+_______________EXERCICE 4_______________
+
+Q.4.2
+total 120
+-rw-rw-rw- 1 codespace codespace  1364 Jan 31 15:52 Reponse.txt
+-rwxrwxrwx 1 codespace codespace 16464 Jan 31 15:40 loopcpu
+-rw-rw-rw- 1 codespace codespace   148 Jan 31 15:40 loopcpu.c
+-rwxrwxrwx 1 codespace codespace 16704 Jan 31 15:36 loopsys
+-rw-rw-rw- 1 codespace codespace   214 Jan 31 15:33 loopsys.c
+-rwxrwxrwx 1 codespace codespace 17128 Jan 31 15:59 mytimes
+-rw-rw-rw- 1 codespace codespace  2002 Jan 31 15:58 mytimes.c
+-rwxrwxrwx 1 codespace codespace 16880 Jan 31 15:56 mytimes_Ex2
+-rw-rw-rw- 1 codespace codespace   538 Jan 31 15:54 mytimes_Ex2.c
+-rwxrwxrwx 1 codespace codespace 16880 Jan 31 15:55 mytimes_test
+
+
+
+_______________EXERCICE 5_______________
+
+Q.5.1 La priorité du processus ps est de 80, soit une priorité faible.
+
+Q.5.2 La priorité de la commande ps est devenue 99.
+
+Q.5.3 ./mytimes "./loopcpu" & ./mytimes "nice -19 ./loopcpu" & ./mytimes "./loopcpu" & ./mytimes "./loopcpu" & ./mytimes "./loopcpu" & ./mytimes "./loopcpu" & ./mytimes "./loopcpu" & ./mytimes "./loopcpu" & ./mytimes "./loopcpu" &
+
+Statistiques de "./loopcpu" :
+Temps total : 8.030000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 1.890000
+Temps système fils : 0.000000
+Statistiques de "./loopcpu" :
+Temps total : 8.250000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 1.900000
+Temps système fils : 0.000000
+Statistiques de "./loopcpu" :
+Temps total : 8.260000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 1.900000
+Temps système fils : 0.000000
+Statistiques de "./loopcpu" :
+Temps total : 8.270000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 1.900000
+Temps système fils : 0.000000
+Statistiques de "./loopcpu" :
+Temps total : 8.360000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 1.900000
+Temps système fils : 0.000000
+Statistiques de "./loopcpu" :
+Temps total : 8.390000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 1.900000
+Temps système fils : 0.000000
+Statistiques de "./loopcpu" :
+Temps total : 8.410000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 1.900000
+Temps système fils : 0.000000
+Statistiques de "./loopcpu" :
+Temps total : 8.440000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 1.900000
+Temps système fils : 0.000000
+Statistiques de "nice -19 ./loopcpu" :
+Temps total : 10.630000
+Temps utilisateur : 0.000000
+Temps système : 0.000000
+Temps utilisateur fils : 2.230000
+Temps système fils : 0.000000
+
+On observe donc que le processus auquel on a baissé la priorité prend le plus de temps à s'exécuter et se termine en dernier.
