@@ -14,5 +14,5 @@ L'intégralité des fichiers originaux est classée par niveau et par semestre :
 
 Ce portfolio démontre la maîtrise des langages et concepts suivants :
 
-* **Langages :** C, Java, PHP, Ocaml.
+* **Langages :** C, Python, Java, PHP, Ocaml, Bash.
 * **Concepts :** Programmation Orientée Objet (POO), Algorithmique, Structures de Données, Programmation Système (Linux), Cryptologie.
