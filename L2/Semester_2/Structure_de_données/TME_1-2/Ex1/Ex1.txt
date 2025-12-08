@@ -1,0 +1,77 @@
+______________________________________***PARTIE 1***____________________________________________________
+
+Q.1.1 Le programme est censé affiché un tableau qui a contient des nombres decroissants de 9 à 0(taille du tableau).
+    pour l'indice respectif de tab.
+    
+    La condition i >= 0 est toujours vraie car i est de type unsigned int,
+    qui ne peut pas être négatif. Donc, la boucle ne se terminera jamais et entraînera un dépassement de tableau, 
+    provoquant une "erreur de segmentation" lors de l'exécution.
+
+Q.1.2 //gcc -ggdb -o tme1_exo1p1 tme1_exo1p1.c
+    //gdb tme1_exo1p1
+
+    //gcc -o tme1_exo1p1 tme1_exo1p1.c
+
+    A rajouté dans le code pour avoir un affichage :
+    //printf("[");
+    //printf("%d, ", tab[i]);
+    //printf("%d]\n", tab[0]);
+
+    Pour utiliser gdb, faut :
+    break x où x est un nombre pour la ligne. Après avoir run(r) le code va s'arrêter à la ligne break.
+    Ensuite on spam continue et print l'indice i par exemple pour voir l'évolution de i et si jamais y a une erreur,
+    on sait d'où elle vient.
+
+    Pour sortir de la boucle, i doit devenir négatif. Cependant, i est de type int et est signé (unsigned), 
+    donc il ne peut pas prendre une valeur plus petite que 0.
+
+    Donc i prend une valeur hasard, 4294967295. 
+    L'erreur de segmentation se produit quand la boucle essaie d'accéder à une case mémoire qui n'est pas allouée pour le tableau tab. 
+    Cela se produit parce que l'index 4294967295 est en dehors des limites du tableau, et cela provoque une violation de mémoire, 
+    entraînant l'erreur de segmentation.
+
+Q.1.3 Donc pour corriger l'erreur, on devrait plutôt déclaré i en int et non en unsigned.
+
+______________________________________***PARTIE 2***____________________________________________________
+
+Q.1.4 Le programme doit a vue d'oeil créé des adresses avec un numéro de rue, le nom de la rue et le code postale.
+    Apres compilation, il est indiqué qu'il y a une faute de segmentation.
+
+    //gcc -ggdb -o tme1_exo1p2 tme1_exo1p2.c
+    //gdb tme1_exo1p2
+    //./tme1_exo1p2
+
+Q.1.5 Apres la commande p new->rue, il est affiché : $1 = 0x0
+    On voit en continuant que dans le break d'après que il y a une faute de segmentation.
+
+    L'erreur de segmentation se produit parce que new->rue n'a pas été alloué correctement avant d'utiliser strcpy.
+    Lorsque strcpy essaie de copier la chaîne "manoeuvre" dans new->rue (l.15),
+    cela entraîne une violation de mémoire car new->rue pointe vers une adresse non allouée.
+
+    On peut utiliser la fonction strdup qui crée une copie allouée dynamiquement d'une chaîne de caractères. 
+    La fonction strdup alloue automatiquement de la mémoire pour la copie de la chaîne.
+
+______________________________________***PARTIE 3***____________________________________________________
+
+Q.1.6 Le programme est censé créer un tableau dynamique(structure Tableau) avec une taille maximale choisi
+    lors de l'initialisation. Ensuite, il ajoute des éléments à ce tableau à l'aide de la fonction ajouterElement,
+    affiche le contenu du tableau puis libère la mémoire.
+
+    //gcc -ggdb -o tme1_exo1p3 tme1_exo1p3.c
+    //gdb tme1_exo1p3
+    //./tme1_exo1p3
+
+    Le programme compile bien mais contient des problèmes cachés.
+
+Q.1.7 D'abord, la variable maxTaille dans la structure n'est pas utilisé. 
+    Ensuite il y a des fuites de mémoires, car libère bien la structure en elle-même,
+    mais pas le tableau tab dans la structure, ²free(t->tab).
+
+Q.1.8 //valgrind --leak-check=yes ./tme1_exo1p3
+    La fuite de mémoire se produit lors de l'appel à la fonction initTableau à la ligne 19 du fichier tme1_exo1p3.c. 
+    Valgrind montre que l'allocation de mémoire avec malloc à cet endroit n'a pas été libérée avant la fin du code.
+
+Q.1.9 Il faut ajouter la libération de la mémoire pour le tableau d'entiers (t->tab),
+    avant de libérer la structure Tableau dans la fonction main.
+    Donc ajouter free(t->tab); avant la ligne free(t);. 
+    Comme ca, la mémoire allouée pour le tableau est libérée correctement avant de libérer la structure.
