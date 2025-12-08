@@ -1,0 +1,42 @@
+void ajouter_animal(int x, int y, float energie, Animal **liste_animal) {
+  // Créez un nouvel animal avec les valeurs spécifiées.
+  Animal *nouvel_animal = creer_animal(x, y, energie);
+
+  // Ajoutez le nouvel animal en tête de la liste existante.
+  nouvel_animal->suivant = *liste_animal;
+  *liste_animal = nouvel_animal;
+}
+
+
+
+void enlever_animal(Animal **liste, Animal *animal) {
+  Animal *current = *liste;
+  Animal *previous = NULL;
+
+  // Parcourez la liste pour trouver l'animal à supprimer.
+  while (current != NULL && current != animal) {
+    previous = current;
+    current = current->suivant;
+  }
+
+  if (current == animal) {
+    // Supprimez l'animal en ajustant les pointeurs.
+    if (previous != NULL) {
+      previous->suivant = current->suivant;
+    } else {
+      *liste = current->suivant;
+    }
+    free(current);
+  }
+}
+
+
+Animal* liberer_liste_animaux(Animal *liste) {
+  while (liste != NULL) {
+    // Parcourez la liste et libérez chaque animal.
+    Animal *suivant = liste->suivant;
+    free(liste);
+    liste = suivant;
+  }
+  return NULL;
+}

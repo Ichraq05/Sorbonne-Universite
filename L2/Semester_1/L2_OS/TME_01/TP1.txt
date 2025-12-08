@@ -1,0 +1,11 @@
+EX 1 :
+
+Q.1 - Au bout d'un moment "cd .." ne remonte plus car on a atteint la racine du système.
+
+Q.2 - En exécutant simplement cd sans argument, vous serez renvoyé à votre répertoire personnel.
+
+Q.3 - En effectuant "cd /".
+
+Q.5 - ./ représente le répertoire courant.
+      ~/ représente le répertoire personnel de l'utilisateur.
+      ../ représente le répertoire parent du répertoire courant.

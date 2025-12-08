@@ -1,0 +1,66 @@
+                    TD 3 Ocaml
+
+EXERCICE 3.1
+
+(*_____________________________QUESTION 1_________________________________*)
+
+let rec add_freq (c : 'a) (l : ('a*int) list) : ('a*int) list = 
+  match l with
+  | [] -> [(c,1)]
+  | (x,y) :: t -> if x=c then (x,y+1) :: t 
+              else (x,y) :: add_freq c t
+
+let x = (add_freq 'A' []);;            
+let x = (add_freq 'A' [('D',1); ('E',1); ('A',5); ('B',3); ('C',1)]) ;;
+let x = (add_freq 'H' [('D',1); ('E',1); ('A',5); ('B',3); ('C',1)]) ;;
+
+
+(*_____________________________QUESTION 2_________________________________*)
+
+let rec freq (l : 'a list) : ('a * int) list =
+  match l with
+  | [] -> []
+  | h :: t -> add_freq h (freq t)
+
+let x = freq ['A';'A';'B';'A';'C';'B';'A';'G';'H';'A';'A';'F';'E';'A';'D';'B';'A'];;
+
+EXERCICE 3.2
+
+(*_____________________________QUESTION 1_________________________________*)
+
+let add_fst (c : (int * int)) : (int * int) =
+  match c with
+  | (x,y) -> (x+1,y)
+
+
+let add_snd (c : (int * int)) : (int * int) =
+  match c with
+  | (x,y) -> (x,y+1)
+
+
+let rec nb_of (l : char list) : int * int =
+  match l with
+  | [] -> (0,0)
+  | h :: t -> if h = '<' then add_fst(nb_of t)
+              else add_snd(nb_of t)
+
+let x = (nb_of []);;
+let x = (nb_of ['<';'<';'>';'<';'>';'>';'<']);;
+
+(*_____________________________QUESTION 2_________________________________*)
+
+let rec o_sup_f (l : char list) : bool =
+  match nb_of(l) with
+  | (x,y) -> x >= y
+
+let x = (o_sup_f ['<';'<';'>';'<';'>';'>';'<']);;
+let x = (o_sup_f ['<';'>';'<';'>';'>']);;
+let x = (o_sup_f ['<';'<';'>';'>']);;
+
+
+let rec all_o_sup_f (l : (char list) list) : bool =
+  List.for_all (o_sup_f) l
+
+let x = (all_o_sup_f []);;
+let x = (all_o_sup_f [['<';'<';'>';'>']; ['<';'<';'>';'<';'>';'>';'<']]);;
+let x = (all_o_sup_f [['<';'<';'>';'>']; ['<';'>';'<';'>';'>']]);;

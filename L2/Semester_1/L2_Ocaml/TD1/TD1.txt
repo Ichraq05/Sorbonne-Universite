@@ -1,0 +1,115 @@
+            TD 1 Ocaml
+
+EXERCICE 1.3   
+
+(*_____________________________QUESTION 1_________________________________*)
+
+let rec sum_impairs(n : int) : int =
+  if n = 0 then
+    0
+  else 
+    (2*n - 1) + sum_impairs(n-1)
+
+let x = sum_impairs 2;;
+let x = sum_impairs 4;;
+
+(*_____________________________QUESTION 2_________________________________*)
+
+let rec sum_impairs_inf(n : int) : int =
+  if n = 0 then
+    0
+  else if n mod 2 = 0 then
+    sum_impairs_inf(n-1)
+  else
+    n + sum_impairs_inf(n-1)
+
+let x = sum_impairs_inf 1;;
+let x = sum_impairs_inf 8;;
+let x = sum_impairs_inf 9;;
+let x = sum_impairs_inf 20;;
+
+
+(*_____________________________QUESTION 3_________________________________*)
+
+let sum_impairs_inf (n : int) : int =
+  if n <= 1 then
+    0
+  else if n mod 2 = 0 then
+    sum_impairs (n / 2)
+  else
+    sum_impairs ((n - 1) / 2)
+
+(*Cette nouvelle version de la fonction sum_impairs_inf évite les tests de parité en divisant n par 2,
+  pour obtenir le nombre d'entiers impairs inférieurs à n. Si n est pair, il utilise n / 2, sinon, il utilise (n - 1) / 2.
+  La division par 2 est un moyen efficace de compter le nombre d'entiers impairs.*)
+
+
+EXERCICE 1.4
+
+(*_____________________________QUESTION 1_________________________________*)
+
+let rec u_n(n : int) : int = 
+  if n = 0 then
+    2
+  else 
+    3*(u_n(n-1)) + 4
+
+let x = u_n 0;;
+let x = u_n 3;;
+
+
+(*_____________________________QUESTION 2_________________________________*)
+
+let rec sum_un(n : int) : int = 
+  if n = 0 then
+    0
+  else 
+    u_n (n-1) + sum_un(n-1)
+
+let x = sum_un 1;;
+let x = sum_un 3;;
+let x = sum_un 4;;
+
+
+EXERCICE 1.5 
+
+(*_____________________________QUESTION 1_________________________________*)
+
+let rec nb_un (n : int) : int =
+  if n = 0 then
+    0
+  else
+    (n mod 2) + nb_un (n / 2)
+
+let x = nb_un 19;;
+let x = nb_un 9;;
+
+(*_____________________________QUESTION 2_________________________________*)
+
+let rec nb_bits (n : int) : int =
+  if n = 0 then
+    0
+  else 
+    1 + nb_bits(n/2)
+
+let x = nb_bits 19;;
+let x = nb_bits 9;;
+
+
+(*_____________________________QUESTION 3_________________________________*)
+
+let rec nb_max(n : int) : int =
+    (1 lsl n) - 1
+
+let x = nb_max 3;;
+let x = nb_max 5;;
+
+(*
+(1 lsl n) : Cela effectue une opération de décalage à gauche (left shift) sur l'entier 1 de n positions. 
+En d'autres termes, cela revient à élever 2 à la puissance n, car le décalage à gauche de 1 position équivaut à une mult par 2. 
+Donc, (1 lsl n) équivaut à 2ⁿ.
+(1 lsl n) - 1 : En soustrayant 1 de 2ⁿ, la fonction retourne le résultat 2ⁿ - 1.
+
+La première ligne let x = nb_max 3;; calcule nb_max 3, ce qui équivaut à 2³ - 1, c'est-à-dire 8 - 1,
+donc x est initialisée à la valeur 7.
+*)

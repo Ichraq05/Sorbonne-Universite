@@ -1,0 +1,7 @@
+________________________________________________***Compilation en Java***____________________________________________________
+
+Compiler avec la commande -->
+javac <nom du fichier>.java
+
+Executer avec la commande -->
+java <nom du fichier>

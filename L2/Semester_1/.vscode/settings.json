@@ -1,0 +1,10 @@
+{
+    "ocaml.sandbox": {
+        "kind": "global"
+    },
+    "files.associations": {
+        "limits": "c",
+        "stdio.h": "c",
+        "ecosys.h": "c"
+    }
+}

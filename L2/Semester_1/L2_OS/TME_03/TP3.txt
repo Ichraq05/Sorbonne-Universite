@@ -1,0 +1,17 @@
+Ex 1 : 
+ 
+Q.3 - Le probleme est que le code va considerer chaque mot comme un arguement a cause de l'espace entre les mots. Dons on aura un bonjour pour chaque noms et prenoms.
+      La Solution es donc de mettre les noms/prenoms sous la forme : "Noms Prenoms" --> entre guillements pour String.
+
+Ex 2 :
+
+Q.2 - true et false sont des fonctions primitives.
+
+Q.3 - Si un fichier.sh affiche "permission non accorder", c'est que le fichier n'est pas executable.
+ Il faut alors taper dans bash :>ls -lah pour verfier si le fichier est executable.
+ Puis entrer :>chmod +x <nom du fichier> , pour donner la permission.
+ En retapant :>ls -lah, un x est censé apparaitre au debut de l'adrese du fichier.
+
+ Q.4 - Chaque fois que la ligne : "./additon $old" est exécutée, un nouveau processus est créé pour exécuter le programme addition. Il y a donc autant de processus crees que l'execution de la commande.
+
+ 

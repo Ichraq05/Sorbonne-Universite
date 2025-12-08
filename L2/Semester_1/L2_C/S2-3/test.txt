@@ -1,0 +1,18 @@
+Animal *liste_proie2 = NULL;
+    Animal *liste_predateur2 = NULL;
+
+    // Lisez l'écosystème depuis le fichier et mettez-le dans de nouvelles listes
+    lire_ecosys("ecosystem.txt", &liste_predateur2, &liste_proie2);
+
+    afficher_ecosys(liste_proie2, liste_predateur2);
+
+    // Test reproduce
+    reproduce(&liste_predateur2,p_reproduce_predateur);
+    reproduce(&liste_proie2,p_reproduce_proie);
+
+    // Test bouger
+    bouger_animaux(liste_predateur2);
+    bouger_animaux(liste_proie2);
+    
+    // Affiche pour vérifier
+    afficher_ecosys(liste_proie2,liste_predateur2);

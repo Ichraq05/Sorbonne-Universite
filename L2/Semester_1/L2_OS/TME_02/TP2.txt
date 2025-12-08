@@ -1,0 +1,17 @@
+Ex1 :
+
+Q.4 - Oui le résultat est convenable, mais le message d'erreur n'a pas le même nom que le nom de l'éxecutable.
+    Pour deplacer un fichier\executable, il faut d'abord aller dans le repertoire parent avec la commande '..' puis faire la manip classique de mv.
+
+Q.5 - Modifier dans la fonction le printf en mettant le nom de l'éxecutable.
+
+Ex 2 :
+
+Q.2 - Il manque le './' qui indique le repertoire courant.
+
+Q.6- Le danger de mettre un '.' dans un path est de perdre tous ces fichiers dans ce path et d'autres menaces.
+
+Ex 3/4 :
+
+Fichier pere.sh et fils.sh.
+

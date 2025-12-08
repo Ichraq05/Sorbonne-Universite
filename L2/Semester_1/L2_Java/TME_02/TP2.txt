@@ -1,0 +1,306 @@
+___________________________________________EXERCICE 13___________________________________________________________
+
+public class AdresseWeb {
+    private String protocole;
+    private String domaine;
+    private String chemin;
+
+    // 1er constructeur avec tous les paramètres
+    public AdresseWeb(String protocole, String domaine, String chemin) {
+        this.protocole = protocole;
+        this.domaine = domaine;
+        this.chemin = chemin;
+    }
+
+    // 2e constructeur avec 2 paramètres --> surcharge
+    public AdresseWeb(String domaine, String chemin) {
+        this("http", domaine, chemin);
+    }
+
+    // 3e constructeur avec 1 parametre --> surcharge
+    public AdresseWeb(String domaine) {
+        this("http", domaine, "");
+    }
+
+    // Afficher le message
+    public String toString() {
+        return protocole + "://www." + domaine + chemin;
+    }
+}
+//Q.2 - La surchage permet de crée plusieurs constructeurs dans une classe avec des signatures differentes. On peut donc cree et utiliser les objets de differente manieres selon nos besoins.
+
+//Q.2 - this() permet de réduire le code d'initialisation commun dans chaque constructeurs. Cela rend le code plus court, lisible et pratique.
+
+
+public class TestAdressWeb {
+    public static void main(String[] args) {
+        AdresseWeb adresse1 = new AdresseWeb("https", "supersite.fr", "/rep1/rep2/index.html");
+        AdresseWeb adresse2 = new AdresseWeb("supersite.fr", "/rep1/rep2/index.html");
+        AdresseWeb adresse3 = new AdresseWeb("supersite.fr");
+
+        System.out.println(adresse1.toString());
+        System.out.println(adresse2.toString());
+        System.out.println(adresse3.toString());
+        }
+}
+
+___________________________________________EXERCICE 14___________________________________________________________
+
+import java.util.Random;
+
+public class Coureur
+{
+    private int numDossard;
+    private double tempsAu100;
+    private boolean possedeTemoin;
+    
+    public Coureur (int numDossard)
+    {
+        this.numDossard = numDossard;
+        this.tempsAu100 = 12 + Math.random() * (16-12);
+        this.possedeTemoin = false;
+    }
+
+    public Coureur ()
+    {
+        this(new Random().nextInt(1000)+1);
+    }
+
+    public int getNumDossard()
+    {
+        return numDossard;
+    }
+
+    public double getTempsAu100()
+    {
+        return tempsAu100;
+    }
+
+    public boolean getPossedeTemoin()
+    {
+        return possedeTemoin;
+    }
+
+    public void setPossedeTemoin(boolean possedeTemoin)
+    {
+        this.possedeTemoin = possedeTemoin;
+    }
+
+    public String toString() {
+        String description = "Coureur " + numDossard + " tempsAu100 : " + String.format("%.1f s au 100m ", tempsAu100) + " possedeTemoin : " + (possedeTemoin ? "oui" : "non");
+        return description;
+    }
+
+    public void passeTemoin(Coureur c)
+    {
+        if (this.possedeTemoin)
+        {
+            this.possedeTemoin = false;
+            c.setPossedeTemoin(true);
+            System.out.println("\nMoi, coureur "+ this.numDossard + ", je passe le témoin au coureur " + c.getNumDossard());
+        }
+         else 
+        {
+            System.out.println("\nCoureur "+ this.numDossard+ ", je n'ai pas le témoin à passer.");
+        }
+    }
+
+    public void courir()
+    {
+        if (this.possedeTemoin)
+        {
+            this.possedeTemoin = true;
+            System.out.println("\nJe suis le coureur "+ this.numDossard +" et je cours.\n");
+        }
+        else
+        {
+            System.out.println("Je suis le coureur "+ this.numDossard +" et je ne cours pas.\n");
+        }
+    }
+
+    //Q.1, Q.2, Q.3
+    public void afficher() {
+        System.out.println("\nNuméro de dossard : " + numDossard);
+        System.out.println("Temps au 100 mètres : " + String.format("%.2f secondes", tempsAu100));
+        System.out.println("Possède un témoin : " + possedeTemoin);
+    }
+}
+
+
+public class TestCoureur {
+        //class TestCoureur {}
+    public static void main(String[] args) {
+    
+        //Q.1, Q.2, Q.3
+        Coureur c1 = new Coureur();
+        Coureur c2 = new Coureur();
+        Coureur c3 = new Coureur();
+        Coureur c4 = new Coureur();
+    
+        //Methode avec la fonction affiche tout en bas
+        c1.afficher();
+        c2.afficher();
+        c3.afficher();
+        c4.afficher();
+    
+        //Q.6 :
+        double temps_Total = c1.getTempsAu100() + c2.getTempsAu100() + c3.getTempsAu100() + c4.getTempsAu100();
+    
+        System.out.println(String.format("\nTemps total au 400m des 4 coureurs : %.2f", temps_Total));
+    }
+}
+
+
+public class TestCoureur2 {
+    //class TestCoureur {}
+    public static void main(String[] args) {
+        Coureur c1 = new Coureur();
+
+        //Acces aux valeurs des variables d'instances grace aux accesseurs
+        int numDossard = c1.getNumDossard();
+        double tempsAu100 = c1.getTempsAu100();
+        boolean possedeTemoin = c1.getPossedeTemoin();
+
+        System.out.println("\nNuméro de dossard : " + numDossard);
+        System.out.println("Temps au 100 mètres : " + String.format("%.3f secondes", tempsAu100));
+        System.out.println("Possède un témoin : " + possedeTemoin);
+        
+        // Avant mutateur toString()
+        System.out.println(c1.toString());
+        
+        //Changer la valeur de possedeTemoin grace au mutateur
+        c1.setPossedeTemoin(true);
+        System.out.println("\nPossède un témoin apres modif : " + c1.getPossedeTemoin());
+
+        // Apres mutateur
+        System.out.println(c1.toString());
+    }
+}
+
+
+public class TestCoureur3 {
+    public static void main(String[] args) {
+        Coureur coureur1 = new Coureur(1);
+        Coureur coureur2 = new Coureur(2);
+        Coureur coureur3 = new Coureur(3);
+        
+        // Coureur 1 possède initialement le témoin
+        coureur1.courir();
+        coureur1.setPossedeTemoin(true);
+        
+        // Afficher l'état initial des coureurs
+        System.out.println("État initial :\n");
+        System.out.println(coureur1);
+        System.out.println(coureur2);
+        System.out.println(coureur3);
+        
+        // Coureur 1 passe le témoin à coureur 2
+        coureur1.passeTemoin(coureur2);
+        
+        // Afficher l'état après le passage du témoin
+        System.out.println("État après le passage du témoin :\n");
+        System.out.println(coureur1);
+        System.out.println(coureur2);
+        System.out.println(coureur3);
+        
+        // Coureur 2 tente de passer le témoin, mais il ne l'a pas
+        coureur1.passeTemoin(coureur2);
+
+        coureur2.courir();
+        coureur3.courir();
+    }
+}
+
+___________________________________________EXERCICE 15___________________________________________________________
+
+import java.util.Random;
+
+public class Complexe 
+{
+    private double reelle;
+    private double imag;
+
+    public Complexe(double reelle, double imag) 
+    {
+        this.reelle = reelle;
+        this.imag = imag;
+    }
+
+    public Complexe() 
+    {
+        Random random = new Random();
+        this.reelle = -2 + random.nextDouble() * 4; 
+        this.imag = -2 + random.nextDouble() * 4;   
+    }
+
+    // Accesseurs (getters) pour reelle et imag, si nécessaire
+    public double getReelle() 
+    {
+        return reelle;
+    }
+
+    public double getImag() 
+    {
+        return imag;
+    }
+
+    public String toString() 
+    {
+        return reelle + " + " + imag + "i";
+    }
+
+    // Voir si le complexe est réel (partie imaginaire nulle)
+    public boolean estReel() 
+    {
+        return imag == 0;
+    }
+
+    // Additionner deux complexes
+    public Complexe addition(Complexe autre) 
+    {
+        double nouvelleReelle = this.reelle + autre.reelle;
+        double nouvelleImag = this.imag + autre.imag;
+        return new Complexe(nouvelleReelle, nouvelleImag);
+    }
+
+    // Multiplier deux complexes
+    public Complexe multiplication(Complexe autre) 
+    {
+        double nouvelleReelle = (this.reelle * autre.reelle) - (this.imag * autre.imag);
+        double nouvelleImag = (this.reelle * autre.imag) + (this.imag * autre.reelle);
+        return new Complexe(nouvelleReelle, nouvelleImag);
+    }
+}
+
+
+public class TestComplexe {
+    public static void main(String[] args) {
+
+        Complexe iCarre = new Complexe(0, 1).multiplication(new Complexe(0, 1));
+        Complexe resultat = new Complexe(1, 1).multiplication(new Complexe(2, 2));
+
+        System.out.println("i^2 = " + iCarre);
+        System.out.println("(1 + i) * (2 + 2i) = " + resultat);
+
+        //Q.3 :
+        Complexe complexe1 = new Complexe(1, 2);
+        Complexe complexe2 = new Complexe(-2, 0);
+        Complexe complexe3 = new Complexe(3, -4);
+
+        System.out.println("\nComplexe 1 : " + complexe1);
+        System.out.println("Complexe 2 : " + complexe2);
+        System.out.println("Complexe 3 : " + complexe3);
+
+        // Tester s'ils sont réels ou pas
+        System.out.println("\nComplexe 1 est réel : " + complexe1.estReel());
+        System.out.println("Complexe 2 est réel : " + complexe2.estReel());
+        System.out.println("Complexe 3 est réel : " + complexe3.estReel());
+
+        Complexe somme = complexe1.addition(complexe2);
+        Complexe produit = complexe2.multiplication(complexe3);
+
+        System.out.println("\nSomme de Comlexe 1 et Comlexe 2 : " + somme);
+        System.out.println("Produit de Comlexe 2 et Comlexe 3 : " + produit);
+    }
+}
+

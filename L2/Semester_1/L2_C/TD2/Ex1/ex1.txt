@@ -1,0 +1,56 @@
+______________________________________________**Tableaux Statiques**__________________________________________________
+
+_________**AVANTAGES :**_________
+1. **Taille fixe à la compilation :** 
+La taille du tableau est définie à la compilation et ne peut pas être modifiée à l'exécution. 
+Cela peut être souhaitable dans certains cas où la taille du tableau est connue à l'avance et ne change pas.
+
+2. **Accès rapide :** 
+L'accès aux éléments d'un tableau statique est généralement plus rapide car les emplacements mémoire sont contigus.
+
+3. **Simplicité :** 
+Les tableaux statiques sont simples à déclarer et à utiliser. Ils ne nécessitent pas d'allocation de mémoire ni de libération.
+
+_________**INCONVENIENTS :**_________
+1. **Taille fixe :** 
+La principale limitation est que la taille du tableau est fixe et ne peut pas être modifiée. 
+Cela peut entraîner des problèmes si la taille doit être ajustée dynamiquement.
+
+2. **Waste of Memory :** 
+Si la taille déclarée est plus grande que la taille nécessaire, cela peut entraîner un gaspillage de mémoire.
+
+3. **Pas adapté aux données volumineuses :** 
+Pour les données volumineuses ou dont la taille est inconnue à la compilation, les tableaux statiques ne sont pas adaptés.
+
+
+_______________________________________________**Tableaux Dynamiques :**_____________________________________________________
+
+_________**AVANTAGES :**_________
+1. **Taille variable :** 
+Les tableaux dynamiques permettent d'ajuster la taille du tableau à l'exécution. 
+Cela permet de gérer des données de taille variable.
+
+2. **Économie de mémoire :** 
+Vous n'allouez que la mémoire nécessaire, ce qui évite de gaspiller de la mémoire.
+
+3. **Flexibilité :** 
+Les tableaux dynamiques sont flexibles et s'adaptent aux besoins changeants du programme.
+
+_________**INCONVENIENTS :**_________
+1. **Complexité :** 
+La gestion de la mémoire dynamique peut être complexe. Il faut allouer et libérer la mémoire correctement pour éviter les fuites de mémoire.
+
+2. **Accès potentiellement plus lent :** 
+L'accès aux éléments d'un tableau dynamique peut être légèrement plus lent que pour un tableau statique en raison de 
+la non-contiguïté des emplacements mémoire.
+
+3. **Gestion de la mémoire :** 
+Oublier de libérer la mémoire peut entraîner des fuites, tandis que la libération prématurée peut provoquer des erreurs d'exécution.
+
+_____________________________________**Dans quels CAS utiliser l'un ou l'autre :**________________________________________
+
+- Utilisez des tableaux statiques lorsque la taille des données est fixe et connue à l'avance, et que la vitesse d'accès est cruciale.
+
+- Utilisez des tableaux dynamiques lorsque la taille des données est variable ou inconnue à l'avance, 
+et lorsque la gestion flexible de la mémoire est nécessaire. Les tableaux dynamiques sont particulièrement utiles 
+pour gérer des listes ou des ensembles de données de taille variable.

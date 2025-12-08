@@ -1,0 +1,86 @@
+Q.1 Le fichier ecosys.h sera inclus dans les fichiers main_tests.c, main_ecosys.c et ecosys.c. 
+
+Q.2 main_tests.c  --> gcc -c main_tests.c -o main_tests.o
+    ecosys.c      --> gcc -c ecosys.c -o ecosys.o
+Creation de l'exécutable "test_ecosys" à partir de main_tests.o et ecosys.o --> gcc main_tests.o ecosys.o -o test_ecosys
+    main_ecosys.c --> gcc -c main_ecosys.c -o main_ecosys.o
+Création de l'exécutable "ecosys" à partir de main_ecosys.o et ecosys.o  --> gcc main_ecosys.o ecosys.o -o ecosys
+
+
+Q.3 Suivres les étapes suivantes :
+1. Compilation du nouveau main_tests.c 
+   --> gcc -c main_tests.c -o main_tests.o
+
+2. Recréation de l'exécutable "test_ecosys" en liant le nouveau main_tests.o avec le fichier ecosys.o 
+   --> gcc main_tests.o ecosys.o -o test_ecosys
+
+
+Q.4 Suivres les étapes suivantes :
+1. Nouveau ecosys.c 
+   --> gcc -c ecosys.c -o ecosys.o
+2. Recréation de l'exécutable "test_ecosys" en liant le main_tests.o existant avec le nouveau ecosys.o 
+   --> gcc main_tests.o ecosys.o -o test_ecosys
+3. Recréation de l'exécutable "ecosys" en liant le main_ecosys.o existant avec le nouveau ecosys.o
+   --> gcc main_ecosys.o ecosys.o -o ecosys
+
+_____________________________________________________________________________________________
+
+§ Compiler le programme "tests_ecosys", exécutez la commande suivante :
+- make tests_ecosys
+
+§ Compiler le programme "ecosys", exécutez la commande suivante :
+- make ecosys
+Les exécutables "tests_ecosys" et "ecosys" seront générés dans le même répertoire.
+
+Vous pouvez exécuter l'un de ces programmes en utilisant la commande suivante, par exemple :
+./tests_ecosys
+ou
+./ecosys
+Assurez-vous que vous êtes dans le même répertoire que les exécutables pour les exécuter.
+
+make tests_ecosys
+./tests_ecosys
+
+make tests_ecosys2
+./tests_ecosys2
+valgrind ./tests_ecosys2
+
+make ecosys
+./ecosys
+valgrind ./ecosys
+
+- make clean
+Cela supprimera les fichiers objets temporaires et les exécutables générés.
+
+
+_________________IMPORTANT !!!______________________
+Pour verifier qu’il n’y a pas de fuite memoire, il faut utiliser l’utilitaire valgrind. Lancez votre programme avec lui
+(en tapant valgrind puis votre programme - ex : valgrind ./tests ecosys2). L’objectif est de n’avoir
+aucun octet qui soit perdu :
+==66002== LEAK SUMMARY:
+==66002== definitely lost: 0 bytes in 0 blocks
+==66002== indirectly lost: 0 bytes in 0 blocks
+
+Je que j'ai eu : 
+==33803== HEAP SUMMARY:
+==33803==     in use at exit: 0 bytes in 0 blocks
+==33803==   total heap usage: 41 allocs, 41 frees, 2,304 bytes allocated
+==33803== 
+==33803== All heap blocks were freed -- no leaks are possible
+
+Donc ca a marché.
+
+
+
+La partie parent->x + 1 et parent->y + 1 dans la création du nouvel animal (Animal *enfant = creer_animal(parent->x + 1, parent->y + 1, parent->energie / 2);) est simplement une façon de décaler légèrement la position du nouvel animal par rapport à celle du parent.
+
+L'idée ici est d'éviter que le nouvel animal ne soit créé exactement sur la même position que le parent. Si le nouvel animal était créé à la même position, il serait superposé au parent, et cela pourrait causer des problèmes dans la simulation, comme le fait que les deux animaux occupent la même case, ce qui n'est généralement pas souhaitable.
+
+En ajoutant "+1" à la position du parent, on s'assure que le nouvel animal est créé à une position voisine mais différente. Cela contribue à rendre la simulation plus réaliste en évitant les superpositions directes d'animaux lors de la reproduction.
+
+
+Bonjour monsieur,
+C'est par rapport au proie qui mourrait pas lorsqu'on mettait proie/prédareur à 5, p_reproduce à 0.0, p_ch_dir a 0.2.
+J'ai re vérifié le code et en resumé, c'est normal que les proies meurrent pas puisqu'il y a de l'herbe partout dans le monde de l'écosystème, donc même si une proie passer dans une case et que l'herbe prend x temps pour repoussé. Le temps qu'elle partent sur les autres cases, l'herbe repousse et donc la proie a quasiment énergie infini. Mais alors quelle est la solution ? Eh bien, c'est de tout simplement mettre rafraichir_monde(monde) en commentaire dans le main_ecosys.c a la ligne 49 pour que l'herbe ne repousse plus et que donc les proies meurent au bout d'un moment. Je vous laisse le faire, j'ai mis un commentaire à côté de rafraichir_monde pour dire que c'est lui qu'il faut mettre en commentaire. En faisant ça, normalement au bout d'un moment tous les proies et preédateur meurent. Je vous ai mis le fichier main_ecosys.c à jour donc veuillez vérifié. Je l'ai d'ailleurs aussi soumis dans moodle donc ça devrait marcher.
+
+Ichraq Mohammad, L2 mono info, groupe 4, numéro étudiant : 21206967
