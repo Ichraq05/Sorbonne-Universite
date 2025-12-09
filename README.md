@@ -2,7 +2,7 @@
 
 ## 🎓 Travaux de Licence en Informatique (Sorbonne Université)
 
-Ce dépôt centralise l'ensemble des Travaux Pratiques (TP) et des Projets réalisés durant ma Licence en Informatique à Sorbonne Université. Il représente le socle de mes compétences en développement logiciel.
+Travaux Pratiques (TP) et des Projets réalisés durant ma Licence en Informatique à Sorbonne Université.
 
 ## 💾 Organisation
 
@@ -12,8 +12,6 @@ L'intégralité des fichiers originaux est classée par niveau et par semestre :
 * **L3** : Projets et travaux de troisième année de Licence (Semestres 5 & 6).
 
 ## 💡 Compétences Validées
-
-Ce portfolio démontre la maîtrise des langages et concepts suivants :
 
 * **Langages :** C, Python, Java, PHP, Ocaml, Bash.
 * **Concepts :** Programmation Orientée Objet (POO), Algorithmique, Structures de Données, Programmation Système (Linux), Cryptologie.
