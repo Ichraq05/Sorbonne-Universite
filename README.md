@@ -13,16 +13,10 @@ L'intégralité des fichiers originaux est classée par niveau et par semestre :
 
 ## 💡 Compétences Validées
 
-* **Systèmes & Bas Niveau :**
-    * **Systèmes d'Exploitation (OS) :** Expertise sous Linux, gestion des processus, mémoire et fichiers (cours LU2IN015, LU3IN010).
-    * **Programmation Système (C)** et shell **Bash**.
-* **Fondamentaux :**
-    * **Algorithmique & Structures de Données** (arbres, listes, graphes).
-    * **Programmation Orientée Objet (POO)**, Paradigmes de programmation.
-* **Réseaux & Sécurité :**
-    * **Réseaux** (protocoles, architecture) et **Architecture Client-Serveur**.
-    * **Cryptologie** (bases de la sécurité).
-* **Données & Web :**
-    * **Bases de Données (SQL)** (cours BDD et BDD2).
-    * **Développement Web** (bases HTML, PHP, concepts de l'Internet).
-* **Environnement :** Linux, Windows.
+## 🛠 Compétences Techniques
+
+* ** Langages : C, Java, OCaml, Python, PHP, Bash, HTML/CSS.
+* **Fondamentaux :** Algorithmique, Structures de Données, Programmation Orientée Objet (POO).
+* **Système & Réseaux :** Systèmes d'Exploitation (OS, Linux), Programmation Système, Réseaux, Architecture Client-Serveur, Cryptologie.
+* **Données & Web :** Bases de Données (SQL), Développement Web.
+* **Autres :** Architecture Logicielle, Mathématiques Appliquées à l'Informatique.
