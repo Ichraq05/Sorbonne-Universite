@@ -11,8 +11,6 @@ L'intégralité des fichiers originaux est classée par niveau et par semestre :
 * **L2** : Projets et travaux de deuxième année de Licence (Semestres 3 & 4).
 * **L3** : Projets et travaux de troisième année de Licence (Semestres 5 & 6).
 
-## 💡 Compétences Validées
-
 ## ✅ Compétences Techniques
 
 * **Langages** : C, Java, OCaml, Python, PHP, Bash, HTML/CSS.
