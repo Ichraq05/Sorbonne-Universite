@@ -13,9 +13,9 @@ L'intégralité des fichiers originaux est classée par niveau et par semestre :
 
 ## 💡 Compétences Validées
 
-## 🛠 Compétences Techniques
+## ✅ Compétences Techniques
 
-* ** Langages : C, Java, OCaml, Python, PHP, Bash, HTML/CSS.
+* **Langages** : C, Java, OCaml, Python, PHP, Bash, HTML/CSS.
 * **Fondamentaux :** Algorithmique, Structures de Données, Programmation Orientée Objet (POO).
 * **Système & Réseaux :** Systèmes d'Exploitation (OS, Linux), Programmation Système, Réseaux, Architecture Client-Serveur, Cryptologie.
 * **Données & Web :** Bases de Données (SQL), Développement Web.
