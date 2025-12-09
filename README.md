@@ -13,5 +13,16 @@ L'intégralité des fichiers originaux est classée par niveau et par semestre :
 
 ## 💡 Compétences Validées
 
-* **Langages :** C, Python, Java, PHP, Ocaml, Bash.
-* **Concepts :** Programmation Orientée Objet (POO), Algorithmique, Structures de Données, Programmation Système (Linux), Cryptologie.
+* **Systèmes & Bas Niveau :**
+    * **Systèmes d'Exploitation (OS) :** Expertise sous Linux, gestion des processus, mémoire et fichiers (cours LU2IN015, LU3IN010).
+    * **Programmation Système (C)** et shell **Bash**.
+* **Fondamentaux :**
+    * **Algorithmique & Structures de Données** (arbres, listes, graphes).
+    * **Programmation Orientée Objet (POO)**, Paradigmes de programmation.
+* **Réseaux & Sécurité :**
+    * **Réseaux** (protocoles, architecture) et **Architecture Client-Serveur**.
+    * **Cryptologie** (bases de la sécurité).
+* **Données & Web :**
+    * **Bases de Données (SQL)** (cours BDD et BDD2).
+    * **Développement Web** (bases HTML, PHP, concepts de l'Internet).
+* **Environnement :** Linux, Windows.
